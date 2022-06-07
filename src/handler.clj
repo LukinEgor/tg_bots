@@ -1,0 +1,53 @@
+(ns handler
+  (:require [compojure.core :refer :all]
+            [compojure.route :as route]
+            [compojure.handler :as handler]
+            [honey.sql :as sql]
+            [db]
+            [clojure.string :as str]
+            [clojure.java.jdbc :as jdbc]
+            [environ.core :refer [env]]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
+            [morse.api :as api]
+            [morse.handlers :as h]
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
+
+(def token (get (System/getenv) "TG_TOKEN"))
+(def host (get (System/getenv) "HOST"))
+(def chatid (get (System/getenv) "CHAT_ID"))
+
+(def pattern #"([a-zA-Z:]+), ([0-9]+)")
+
+(comment
+  (api/set-webhook token host)
+  (api/send-text token chatid "how are you?")
+  )
+
+(h/defhandler handler
+  (h/command-fn "chatid"
+   (fn [{{id :id} :chat}]
+     (api/send-text token id (str "Chat ID: " id))))
+
+  (h/message-fn
+    (fn [{{id :id} :chat :as message}]
+      (if-some [[_ name intensity]
+                (re-matches pattern (:text message))]
+        (jdbc/execute!
+         db/spec
+         (-> {:insert-into [:emotions]
+              :values [{:name name :intensity (Integer/parseInt intensity)}]}
+             (sql/format)
+             )
+         { :return-keys true })
+        (api/send-text token chatid "not valid data")))))
+
+(defroutes app-routes
+  (GET "/" [] "Hello World")
+  (POST "/webhook" {body :body} (handler body))
+  (route/not-found "Not Found"))
+
+(def app
+  (->
+   (handler/site app-routes)
+   (wrap-json-body { :keywords? true })
+   (wrap-json-response)))
