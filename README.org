@@ -1,1 +1,18 @@
 #+title: Readme
+
+** Infrastructure
+*** Helm commands
+- check diff
+#+begin_src sh
+helm diff upgrade --install \
+  --values values.yaml \
+  -n tg-bots api .
+#+end_src
+
+- deploy
+#+begin_src sh
+helm upgrade --install \
+  --create-namespace \
+  --values values.yaml \
+  -n tg-bots api .
+#+end_src
