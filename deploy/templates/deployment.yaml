@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.service.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Values.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Values.service.name }}
+    spec:
+      # initContainers:
+      #   # TODO: check database connection
+      #   - name: init-postgres
+      #     image: busybox:1.28
+      #     command: ['sh', '-c', "sleep 10"]
+
+      containers:
+      - name: bot
+        command: ["java"]
+        args: ["-jar", "server.jar"]
+        image: {{ .Values.image }}:{{ .Values.version }}
+        ports:
+        - containerPort: {{ .Values.port }}
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.port }}
+
+        env:
+{{- range $key, $value := $.Values.envVars }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+{{ end }}

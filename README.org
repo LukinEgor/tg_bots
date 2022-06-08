@@ -5,7 +5,7 @@
 - check diff
 #+begin_src sh
 helm diff upgrade --install \
-  --values values.yaml \
+  --values values.production.yaml \
   -n tg-bots api .
 #+end_src
 
@@ -13,6 +13,6 @@ helm diff upgrade --install \
 #+begin_src sh
 helm upgrade --install \
   --create-namespace \
-  --values values.yaml \
+  --values values.production.yaml \
   -n tg-bots api .
 #+end_src
