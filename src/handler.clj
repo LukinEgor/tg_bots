@@ -16,7 +16,7 @@
 (def host (get (System/getenv) "HOST"))
 (def chatid (get (System/getenv) "CHAT_ID"))
 
-(def pattern #"([a-zA-Z:]+), ([0-9]+)")
+(def pattern #"(.+), ([0-9]+)")
 
 (comment
   (api/set-webhook token host)
