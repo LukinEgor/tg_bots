@@ -12,11 +12,10 @@ spec:
       labels:
         app: {{ .Release.Name }}-{{ .Values.service.name }}
     spec:
-      # initContainers:
-      #   # TODO: check database connection
-      #   - name: init-postgres
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', "sleep 10"]
+      initContainers:
+      - name: migrations
+        image: {{ .Values.image }}:{{ .Values.version }}
+        command: ['lein', 'migratus', "migrate"]
 
       containers:
       - name: bot

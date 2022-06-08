@@ -11,3 +11,6 @@ web:
 
 build-cli:
 	lein with-profile cli bin && mv target/.*-SNAPSHOT /usr/local/bin/bot
+
+migrate:
+	lein migratus migrate

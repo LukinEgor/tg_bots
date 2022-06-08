@@ -16,7 +16,12 @@
 (def host (get (System/getenv) "HOST"))
 (def chatid (get (System/getenv) "CHAT_ID"))
 
-(def pattern #"(.+), ([0-9]+)")
+(def pattern #"(.+), ([0-9]+),?\s?(.+)?")
+
+(comment
+  (re-matches pattern "test, 5")
+  (re-matches pattern "test, 5, forest")
+)
 
 (comment
   (api/set-webhook token host)
@@ -30,12 +35,12 @@
 
   (h/message-fn
     (fn [{{id :id} :chat :as message}]
-      (if-some [[_ name intensity]
+      (if-some [[_ name intensity context]
                 (re-matches pattern (:text message))]
         (jdbc/execute!
          db/spec
          (-> {:insert-into [:emotions]
-              :values [{:name name :intensity (Integer/parseInt intensity)}]}
+              :values [{:name name :intensity (Integer/parseInt intensity) :context context}]}
              (sql/format)
              )
          { :return-keys true })
