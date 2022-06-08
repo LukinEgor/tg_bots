@@ -10,4 +10,4 @@ web:
 	lein figwheel
 
 build-cli:
-	lein with-profile cli bin && mv target/*-SNAPSHOT /usr/local/bin/bot
+	lein with-profile cli bin && mv target/.*-SNAPSHOT /usr/local/bin/bot

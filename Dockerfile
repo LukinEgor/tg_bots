@@ -10,6 +10,6 @@ RUN lein deps
 COPY . /usr/src/app
 
 RUN mv "$(lein with-profile api ring uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" server.jar
-RUN lein with-profile cli bin && mv target/*-SNAPSHOT /usr/local/bin/bot
+RUN lein with-profile cli bin && mv target/.*-SNAPSHOT /usr/local/bin/bot
 
 CMD ["java", "-jar", "server.jar"]
