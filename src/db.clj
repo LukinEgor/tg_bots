@@ -1,8 +1,7 @@
-(ns db
-  (:require [environ.core :refer [env]]))
+(ns db)
 
 (def spec {:dbtype "postgresql"
-           :dbname (env :db-name)
-           :host (env :db-host)
-           :user (env :db-user)
-           :password (env :db-password)})
+           :dbname (get (System/getenv) "DB_NAME")
+           :host (get (System/getenv) "DB_HOST")
+           :user (get (System/getenv) "DB_USER")
+           :password (get (System/getenv) "DB_PASS")})
