@@ -17,6 +17,12 @@ spec:
         image: {{ .Values.image }}:{{ .Values.version }}
         command: ['lein', 'migratus', "migrate"]
 
+        env:
+{{- range $key, $value := $.Values.envVars }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+{{ end }}
+
       containers:
       - name: bot
         command: ["java"]
