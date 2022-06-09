@@ -16,9 +16,10 @@
 (def host (get (System/getenv) "HOST"))
 (def chatid (get (System/getenv) "CHAT_ID"))
 
-(def pattern #"(.+), ([0-9]+),?\s?(.+)?")
+(def pattern #"(.+),?\s?([0-9]+)?,?\s?(.+)?")
 
 (comment
+  (re-matches pattern "test")
   (re-matches pattern "test, 5")
   (re-matches pattern "test, 5, forest")
 )
