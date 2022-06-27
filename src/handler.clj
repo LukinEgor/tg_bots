@@ -86,7 +86,7 @@
 
 (defroutes app-routes
   (POST "/webhook" {body :body} (handler body))
-  (route/files "/")
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app
