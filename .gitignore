@@ -11,3 +11,8 @@ pom.xml.asc
 .env
 
 /deploy/values.production.yaml
+
+/.shadow-cljs
+/node_modules
+figwheel_server.log
+/resources/public/js

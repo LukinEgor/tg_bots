@@ -14,5 +14,6 @@
 (comment
   (def token (get (System/getenv) "TG_TOKEN"))
   (def commands [{:command "/test" :description "test"}])
+  (def commands [{:command "/addnotification" :description "Add Notification"}])
   (set-my-commands token commands)
   )

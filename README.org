@@ -1,7 +1,19 @@
 #+title: Readme
 
-** Infrastructure
-*** Helm commands
+* Development
+docker-compose up
+
+docker-compose exec app make repl
+
+** Frontend
+npx shadow-cljs browser-repl
+
+npx shadow-cljs watch reminder
+
+npx shadow-cljs compile reminder
+
+* Deploy
+** Helm commands
 - check diff
 #+begin_src sh
 helm diff upgrade --install \

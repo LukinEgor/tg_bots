@@ -22,17 +22,54 @@
   (re-matches pattern "test")
   (re-matches pattern "test, 5")
   (re-matches pattern "test, 5, forest")
-)
+  (def url "https://d8fb-92-54-207-203.ngrok.io")
 
-(comment
   (api/set-webhook token host)
   (api/send-text token chatid "how are you?")
+
+  (def options
+    {
+     :reply_markup
+     {
+      :inline_keyboard
+      [
+       [{
+         :text "test"
+         :web_app { :url url }
+        }]
+       ]
+      }
+     })
+
+  (def options
+    {
+     :reply_markup
+     {
+      :keyboard
+      [
+       [{
+        :text "test"
+        :web_app { :url url }
+        }]
+       ]
+      }
+     })
+
+  (api/send-text token chatid options "how are you?" )
   )
 
 (h/defhandler handler
   (h/command-fn "chatid"
    (fn [{{id :id} :chat}]
      (api/send-text token id (str "Chat ID: " id))))
+
+  ;; (h/command-fn "addnotification"
+  ;;  (fn [{{id :id} :chat}]
+  ;;    (api/send-text token id (str "Chat ID: " id))))
+
+  ;; (h/command-fn "setnotification"
+  ;;  (fn [{{id :id} :chat}]
+  ;;    (api/send-text token id (str "Chat ID: " id))))
 
   (h/message-fn
     (fn [{{id :id} :chat :as message}]
@@ -50,6 +87,7 @@
 (defroutes app-routes
   (GET "/" [] "Hello World")
   (POST "/webhook" {body :body} (handler body))
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app

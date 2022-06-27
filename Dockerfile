@@ -1,5 +1,7 @@
 FROM clojure:openjdk-8-lein-2.9.8-buster
 
+RUN apt update -y && apt-get install -y nodejs npm
+
 RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
@@ -9,7 +11,8 @@ RUN lein deps
 
 COPY . /usr/src/app
 
-RUN mv "$(lein with-profile api ring uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" server.jar
+RUN mv "$(lein ring uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" server.jar
 RUN lein with-profile cli bin && mv target/.*-SNAPSHOT /usr/local/bin/bot
+RUN npx shadow-cljs compile reminder
 
 CMD ["java", "-jar", "server.jar"]
