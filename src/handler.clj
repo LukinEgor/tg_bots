@@ -85,9 +85,8 @@
         (api/send-text token chatid "not valid data")))))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
   (POST "/webhook" {body :body} (handler body))
-  (route/resources "/")
+  (route/files "/")
   (route/not-found "Not Found"))
 
 (def app
