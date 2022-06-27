@@ -9,6 +9,10 @@ WORKDIR /usr/src/app
 COPY project.clj /usr/src/app/
 RUN lein deps
 
+COPY package.json /usr/src/app/
+COPY package-lock.json /usr/src/app/
+RUN npm install
+
 COPY . /usr/src/app
 
 RUN mv "$(lein ring uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" server.jar
