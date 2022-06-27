@@ -15,7 +15,7 @@ RUN npm install
 
 COPY . /usr/src/app
 
-RUN npx shadow-cljs compile reminder
+RUN npx shadow-cljs release reminder
 RUN mv "$(lein ring uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" server.jar
 RUN lein with-profile cli bin && mv target/.*-SNAPSHOT /usr/local/bin/bot
 
