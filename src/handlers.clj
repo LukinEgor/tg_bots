@@ -1,4 +1,4 @@
-(ns handler
+(ns handlers
   (:require [settings :as s]
             [clojure.java.jdbc :as jdbc]
             [honey.sql :as sql]
@@ -56,5 +56,4 @@
       }
      })
 
-  (api/send-text token chatid options "how are you?" )
-  )
+  (api/send-text token chatid options "how are you?" ))

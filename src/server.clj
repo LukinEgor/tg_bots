@@ -2,15 +2,19 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [compojure.handler :refer [site]]
-            [handler :as tg-handler]
+            [handlers]
+            [reminder.handlers]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [ring.util.response :refer [resource-response]]
             [morse.handlers :as h]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
 (h/defhandler tg-routes
-  (h/command-fn "chatid" tg-handler/chat-id)
-  (h/message-fn tg-handler/default-message))
+  (h/command-fn "chatid" handlers/chat-id)
+  (h/command-fn "startreminder" reminder.handlers/start)
+  (h/command-fn "addreminder" reminder.handlers/add)
+  (h/command-fn "stopreminder" reminder.handlers/stop)
+  (h/message-fn handlers/default-message))
 
 (defroutes app-routes
   (GET "/" req (resource-response "index.html"))
