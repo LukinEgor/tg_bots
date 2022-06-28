@@ -18,6 +18,7 @@
                  [ring/ring-json "0.5.1"]
                  [org.clojure/tools.cli "1.0.206"]
                  [ring/ring-defaults "0.3.2"]
+                 [cheshire "5.11.0"]
                  [org.clojure/clojurescript "1.10.758"]]
   :plugins [[lein-ring "0.12.5"]
             [lein-exec "0.3.7"]
@@ -32,7 +33,7 @@
                   :subname (str "//" (get (System/getenv) "DB_HOST") "/" (get (System/getenv) "DB_NAME"))
                   :user (get (System/getenv) "DB_USER")
                   :password (get (System/getenv) "DB_PASS")}}
-  :ring {:handler handler/app :open-browser? false}
+  :ring {:handler server/app :open-browser? false}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.2"]]}

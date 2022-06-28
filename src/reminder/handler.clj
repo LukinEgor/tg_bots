@@ -1,5 +1,9 @@
 (ns notifications.handler)
 
+(def host (get (System/getenv) "HOST"))
+
+(def web-app-url (str host "/index.html"))
+
 (defn reply-markup-options
   {:reply_markup
    {
