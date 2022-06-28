@@ -8,11 +8,5 @@
 
 (defn -main [& args]
   (case (first args)
-    "set-webhook" (api/set-webhook token host)
-    "notify" (api/send-text token chatid "how are you?")))
-
-(defn set-webhook []
-  (api/set-webhook token host))
-
-(defn notify []
-  (api/send-text token chatid "how are you?"))
+    "set-webhook" (api/set-webhook token (str host "/webhook"))
+    "test-notification" (api/send-text token chatid "test")))
