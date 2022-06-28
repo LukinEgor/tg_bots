@@ -21,7 +21,7 @@
 (defn start [_]
   (let [token (s/get "TG_TOKEN")
         chat-id (s/get "CHAT_ID")
-        reply-markup (reply-markup-options (s/get "HOST"))]
+        reply-markup (reply-markup-options (str (s/get "HOST") "/index.html"))]
   (api/send-text token chat-id reply-markup "Reminder bot is activated")))
 
 (defn stop [_]
