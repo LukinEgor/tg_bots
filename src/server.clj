@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [compojure.handler :refer [site]]
             [ring.logger :as logger]
+            [taoensso.timbre :as timbre]
             [handlers]
             [reminder.handlers]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
@@ -26,6 +27,7 @@
 (def app
   (->
    (site app-routes)
-   (logger/wrap-with-logger)
+   (logger/wrap-with-logger {:log-fn (fn [{:keys [level throwable message]}]
+                                       (timbre/log level throwable message))})
    (wrap-json-body { :keywords? true })
    (wrap-json-response)))

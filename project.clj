@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [compojure "1.6.1"]
                  [morse "0.4.3"]
-                 [ring-logger "1.1.1"]
+                 [com.taoensso/timbre "5.2.1"]
                  [environ "1.2.0"]
                  [reagent "1.1.0"]
                  [cljsjs/react "17.0.2-0"]
