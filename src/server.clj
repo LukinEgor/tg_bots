@@ -2,6 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [compojure.handler :refer [site]]
+            [ring.logger :as logger]
             [handlers]
             [reminder.handlers]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
@@ -25,5 +26,6 @@
 (def app
   (->
    (site app-routes)
+   (logger/wrap-with-logger)
    (wrap-json-body { :keywords? true })
    (wrap-json-response)))

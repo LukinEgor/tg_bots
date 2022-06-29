@@ -17,6 +17,7 @@
                  [org.clojure/java.jdbc "0.7.12"]
                  [ring/ring-json "0.5.1"]
                  [org.clojure/tools.cli "1.0.206"]
+                 [ring-logger "1.1.1"]
                  [ring/ring-defaults "0.3.2"]
                  [cheshire "5.11.0"]
                  [org.clojure/clojurescript "1.10.758"]]
