@@ -41,13 +41,12 @@
               (re-matches pattern data)]
       (do
         (m/insert! {:name name
-                    :notification-time (new java.sql.Timestamp
-                                            (* (Long/valueOf datetime) 1000))})
+                    :notification-time (new java.sql.Timestamp (Long/valueOf datetime))})
         (api/send-text token chat-id "Reminder is added" ))
       (api/send-text token chat-id "Not valid format" ))))
 
 (comment
   (def ts "1656552240")
   (m/insert! {:name "test"
-              :notification-time (new java.sql.Timestamp (* (Long/valueOf ts) 1000)) })
+              :notification-time (new java.sql.Timestamp (* (Long/valueOf ts) 1)) })
   )
