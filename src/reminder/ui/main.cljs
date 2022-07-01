@@ -23,7 +23,7 @@
 (defonce state (r/atom {:date (current-date) :name "default name"}))
 
 (defn notification-command []
-  (let [unix-time (.toUnixInteger (:date @state))]
+  (let [unix-time (* (.toUnixInteger (:date @state)) 1000)]
     (str "/addreminder " (:name @state) " " unix-time)))
 
 (defn handle-change-date [changedDate]
