@@ -11,6 +11,10 @@ npx shadow-cljs browser-repl
 npx shadow-cljs watch reminder
 
 npx shadow-cljs compile reminder
+* Migration
+lein migratus migrate
+
+lein migratus create
 
 * Deploy
 ** Helm commands

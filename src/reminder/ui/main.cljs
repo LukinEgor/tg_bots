@@ -24,7 +24,7 @@
 
 (defn notification-command []
   (let [unix-time (.toUnixInteger (:date @state))]
-    (str "/addreminder " unix-time " " (:name @state))))
+    (str "/addreminder " (:name @state) " " unix-time)))
 
 (defn handle-change-date [changedDate]
   (swap! state assoc :date changedDate))

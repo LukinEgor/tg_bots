@@ -48,20 +48,25 @@
             (is (= resp-chat-id chat-id)))))
 
       (testing "adding reminder"
-        (let [params { :message { :text "/addreminder" :chat { :id chat-id } } }
+        (let [timestamp (System/currentTimeMillis)
+              params { :message { :web_app_data { :data (str "/addreminder test " timestamp) } :chat { :id chat-id } } }
               response (app (-> (mock/request :post "/webhook")
                                 (mock/json-body params)))]
           (is (= (:status response) 200))
-          (let [[resp-token, resp-chat-id, markup, _] (parse-string (:body response))]
+          (let [[resp-token, resp-chat-id, resp-message] (parse-string (:body response))]
             (is (= resp-token token))
-            (is (= resp-chat-id chat-id)))))
+            (is (= resp-chat-id chat-id))
+            (is (= resp-message "Reminder is added"))
+            )))
 
       (testing "stoping reminder"
         (let [params { :message { :text "/stopreminder" :chat { :id chat-id } } }
               response (app (-> (mock/request :post "/webhook")
                                 (mock/json-body params)))]
           (is (= (:status response) 200))
-          (let [[resp-token, resp-chat-id, markup, _] (parse-string (:body response))]
+          (let [[resp-token, resp-chat-id, _, resp-message] (parse-string (:body response))]
             (is (= resp-token token))
-            (is (= resp-chat-id chat-id)))))
+            (is (= resp-chat-id chat-id))
+            (is (= resp-message "Reminder bot is deactivated"))
+            )))
       )))
