@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: sync
+            image: {{ .Values.image }}:{{ .Values.version }}
+            command: ["/bin/sh","-c"]
+            args: ["bot send-reminders"]
+            env:
+{{- range $key, $value := $.Values.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{ end }}
