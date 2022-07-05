@@ -39,7 +39,6 @@
    (save-state)))
 
 (comment
-(new java.sql.Timestamp (System/currentTimeMillis))
   (def ts (new java.sql.Timestamp (System/currentTimeMillis)))
 
   (select-active-reminders ts)
