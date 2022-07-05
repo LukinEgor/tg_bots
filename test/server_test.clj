@@ -1,6 +1,7 @@
 (ns server-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
+            [clojure.java.jdbc :as jdbc]
             [settings :as s]
             [cheshire.core :refer [parse-string]]
             [morse.api :as api]
@@ -35,6 +36,7 @@
   (let [chat-id (rand-int 100000)
         token (str "token_" (rand-int 100000))]
     (with-redefs [api/send-text (fn [& args] args)
+                  jdbc/execute! (fn [_ _ _] [1])
                   s/get (fn [arg] (get {"TG_TOKEN" token
                                         "CHAT_ID" chat-id
                                         "HOST" "localhost" } arg))]
