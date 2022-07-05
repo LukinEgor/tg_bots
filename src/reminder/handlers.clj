@@ -12,7 +12,6 @@
    {
     :keyboard
     [
-     []
      [{
        :text "Set Reminder"
        :web_app { :url url }
@@ -41,12 +40,14 @@
               (re-matches pattern data)]
       (do
         (m/insert! {:name name
+                    :state "new"
                     :notification-time (new java.sql.Timestamp (Long/valueOf datetime))})
         (api/send-text token chat-id "Reminder is added" ))
       (api/send-text token chat-id "Not valid format" ))))
 
 (comment
-  (def ts "1656552240")
-  (m/insert! {:name "test"
-              :notification-time (new java.sql.Timestamp (* (Long/valueOf ts) 1)) })
+  (def ts (System/currentTimeMillis))
+  (m/insert! {:name "test2"
+              :state "new"
+              :notification-time (new java.sql.Timestamp (Long/valueOf ts)) })
   )
