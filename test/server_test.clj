@@ -56,7 +56,6 @@
           (let [[resp-token, resp-chat-id, resp-message] (parse-string (:body response))]
             (is (= resp-token token))
             (is (= resp-chat-id chat-id))
-            (is (= resp-message "Reminder is added"))
             )))
 
       (testing "stoping reminder"

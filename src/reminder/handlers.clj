@@ -33,16 +33,24 @@
         reply-markup {:reply_markup {:keyboard []}}]
   (api/send-text token chat-id reply-markup "Reminder bot is deactivated")))
 
+(defn- on-add-tg-msg [name ts]
+  (str
+   name
+   ", "
+   (.format
+    (java.text.SimpleDateFormat. "dd.MM.yyyy hh:mm")
+    (new java.util.Date (Long/valueOf ts)))))
+
 (defn add [{{data :data} :web_app_data}]
   (let [token (s/get "TG_TOKEN")
         chat-id (s/get "CHAT_ID")]
-    (if-some [[_ _ name datetime]
+    (if-some [[_ _ name ts]
               (re-matches pattern data)]
       (do
         (m/insert! {:name name
                     :state "new"
-                    :notification-time (new java.sql.Timestamp (Long/valueOf datetime))})
-        (api/send-text token chat-id "Reminder is added" ))
+                    :notification-time (new java.sql.Timestamp (Long/valueOf ts))})
+        (api/send-text token chat-id (on-add-tg-msg name ts)))
       (api/send-text token chat-id "Not valid format" ))))
 
 (comment
