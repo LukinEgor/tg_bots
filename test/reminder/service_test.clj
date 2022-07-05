@@ -2,7 +2,7 @@
   (:require [reminder.service :refer [notify]]
             [morse.api :as api]
             [clojure.java.jdbc :as jdbc]
-            [clojure.test :refer :all]))
+            [clojure.test :refer [is deftest]]))
 
 (def ts 1657006086564)
 (def reminders

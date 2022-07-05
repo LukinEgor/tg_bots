@@ -1,5 +1,6 @@
 (ns telegram-ext
   (:require [morse.api :as api]
+            [clojure.string :as str]
             [clj-http.client :as http]))
 
 (defn set-my-commands
@@ -12,16 +13,14 @@
                     :form-params  body})))
 
 (defn web-app-command?
-  "Checks if message is a command with a name.
-  /stars and /st are considered different."
   [update name]
   (some-> update
           :message
           :web_app_data
           :data
-          (clojure.string/split #"\s+")
+          (str/split #"\s+")
           (first)
-          (clojure.string/split #"@")
+          (str/split #"@")
           (first)
           (= (str "/" name))))
 
@@ -29,7 +28,7 @@
   "Generate web-app command handler from an update function"
   [name handler]
   (fn [update]
-    (if (web-app-command? update name)
+    (when (web-app-command? update name)
       (handler (:message update)))))
 
 (comment

@@ -1,9 +1,9 @@
 (ns reminder.handlers
   (:require [settings :as s]
             [clojure.java.jdbc :as jdbc]
-            [reminder.mapper :as m]
             [honey.sql :as sql]
-            [morse.api :as api]))
+            [morse.api :as api]
+            [db]))
 
 (def pattern #"(.+) (.+) ([0-9]+)")
 
@@ -47,15 +47,24 @@
     (if-some [[_ _ name ts]
               (re-matches pattern data)]
       (do
-        (m/insert! {:name name
-                    :state "new"
-                    :notification-time (new java.sql.Timestamp (Long/valueOf ts))})
+        (jdbc/execute!
+         db/spec
+         (-> {:insert-into [:reminders]
+              :values [{:name name
+                        :state "new"
+                        :notification-time (new java.sql.Timestamp (Long/valueOf ts))}]}
+             (sql/format))
+         { :return-keys true })
         (api/send-text token chat-id (on-add-tg-msg name ts)))
       (api/send-text token chat-id "Not valid format" ))))
 
 (comment
   (def ts (System/currentTimeMillis))
-  (m/insert! {:name "test2"
-              :state "new"
-              :notification-time (new java.sql.Timestamp (Long/valueOf ts)) })
+  (jdbc/execute!
+   db/spec
+   (-> {:insert-into [:reminders]
+        :values [{:name name
+                  :state "new"
+                  :notification-time (new java.sql.Timestamp (Long/valueOf ts))}]}
+       (sql/format)))
   )

@@ -1,5 +1,5 @@
 (ns server
-  (:require [compojure.core :refer :all]
+  (:require [compojure.core :refer [POST GET defroutes]]
             [compojure.route :as route]
             [compojure.handler :refer [site]]
             [ring.logger :as logger]
@@ -9,8 +9,7 @@
             [reminder.handlers]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [ring.util.response :refer [resource-response]]
-            [morse.handlers :as h]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
+            [morse.handlers :as h]))
 
 (h/defhandler tg-routes
   (h/command-fn "chatid" handlers/chat-id)
@@ -20,7 +19,7 @@
   (h/message-fn handlers/default-message))
 
 (defroutes app-routes
-  (GET "/" req (resource-response "index.html"))
+  (GET "/" _ (resource-response "index.html"))
   (POST "/webhook" {body :body} (tg-routes body))
   (route/resources "/")
   (route/not-found "Not Found"))

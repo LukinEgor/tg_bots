@@ -25,6 +25,7 @@
             [lein-exec "0.3.7"]
             [lein-figwheel "0.5.18"]
             [migratus-lein "0.7.3"]
+            [com.github.clj-kondo/lein-clj-kondo "0.2.0"]
             [lein-binplus "0.6.6"]]
   :migratus {:store :database
              :migration-dir "migrations"

@@ -1,4 +1,5 @@
 (ns reminder.service
+  (:refer-clojure :exclude [send])
   (:require [clojure.java.jdbc :as jdbc]
             [morse.api :as api]
             [settings :as s]
@@ -34,7 +35,7 @@
 
 (defn notify [ts]
   (let [reminders (select-active ts)]
-    (if (seq reminders)
+    (when (seq reminders)
       (->
        (send reminders)
        (save-state)))))
@@ -42,7 +43,7 @@
 (comment
   (def ts (new java.sql.Timestamp (System/currentTimeMillis)))
 
-  (select-active-reminders ts)
+  (select-active ts)
   (notify ts)
 
   (def sql ["UPDATE reminders SET state = ? where id = ?" ["completed" 33] ["completed" 34] ["completed" 35]])
