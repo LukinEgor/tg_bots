@@ -33,10 +33,11 @@
       (sql/format))))
 
 (defn notify [ts]
-  (->
-   (select-active ts)
-   (send)
-   (save-state)))
+  (let [reminders (select-active ts)]
+    (if (seq reminders)
+      (->
+       (send reminders)
+       (save-state)))))
 
 (comment
   (def ts (new java.sql.Timestamp (System/currentTimeMillis)))
