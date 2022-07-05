@@ -1,0 +1,9 @@
+;; shadow-cljs configuration
+{:source-paths ["src"]
+ :dependencies [[reagent "1.1.0"]]
+ :dev-http { 5310 "resources/public" }
+ :http {:port 5309 :host "0.0.0.0"}
+ :builds
+ {:reminder {:target :browser
+        :output-dir "resources/public/js"
+        :modules {:main {:entries [reminder.ui.main]}}}}}

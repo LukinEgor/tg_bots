@@ -4,6 +4,8 @@ metadata:
   name: {{ .Release.Name }}-{{ .Values.service.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Release.Name }}-{{ .Values.service.name }}
@@ -33,7 +35,7 @@ spec:
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /index.html
             port: {{ .Values.port }}
 
         env:

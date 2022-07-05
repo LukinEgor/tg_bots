@@ -1,6 +1,21 @@
 #+title: Readme
 
-** Infrastructure
+** Development
+- Run containers
+  #+begin_src sh
+  make up
+  #+end_src
+
+- Run repl
+  #+begin_src sh
+  make repl
+  #+end_src
+
+- Run frontend
+  #+begin_src sh
+  make web
+  #+end_src
+** Deploy
 *** Helm commands
 - check diff
 #+begin_src sh

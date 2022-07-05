@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cronjob
 spec:
-  schedule: "*/30 * * * *"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
       template:
@@ -13,7 +13,7 @@ spec:
           - name: sync
             image: {{ .Values.image }}:{{ .Values.version }}
             command: ["/bin/sh","-c"]
-            args: ["bot notify"]
+            args: ["bot send-reminders"]
             env:
 {{- range $key, $value := $.Values.envVars }}
             - name: {{ $key }}
