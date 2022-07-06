@@ -2,9 +2,7 @@
 
 ** Development
 - Run containers
-  #+begin_src sh
-  make up
-  #+end_src
+  ~make up~
 
 - Run repl
   #+begin_src sh
